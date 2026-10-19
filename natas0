@@ -4,8 +4,6 @@ When you open Natas Level 0 on OverTheWire, you are asked to log in using the us
 
 After logging in, you see a webpage displaying the following message:
 
-![Natas Level 00 initial page](Screenshot_2026-10-19_03_50_24.png)
-
 > You can find the password for the level on this page.
 
 If you are new to web security, you might think this is a basic webpage and wonder what to do next. That is completely normal when you are starting out.
