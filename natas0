@@ -1,0 +1,97 @@
+# Natas Level 00. ## 1. Finding Information in HTML Source Code
+
+When you open Natas Level 0 on OverTheWire, you are asked to log in using the username and password provided by the Natas game.
+
+After logging in, you see a webpage displaying the following message:
+
+![image alt]( https://github.com/harsh0jaiswal002/natas-walkthrough/blob/main/Screenshot_2026-10-19_03_50_24.png)
+
+> You can find the password for the level on this page.
+
+If you are new to web security, you might think this is a basic webpage and wonder what to do next. That is completely normal when you are starting out.
+
+The first step is to inspect the webpage and understand what information the browser receives from the server.
+
+## 2. Inspecting the Webpage
+
+There are two ways to inspect the page:
+
+**Method 1: View Page Source**
+
+- Right-click the webpage and select *View Page Source* or
+
+- Press `Ctrl + U` in your browser.
+
+**Method 2: Developer Tools**
+
+- Right-click the webpage and select *Inspect* or
+
+- Press `F12` to open Developer Tools.
+
+- You can also use `Ctrl + Shift + C` to activate the element inspector in desktop browsers.
+
+Read through the HTML source. Look for information that is not visible on the rendered webpage.
+
+In this challenge, the level password is included in the HTML source. This allows you to retrieve it without exploiting a vulnerability.
+
+## 3. Why Is This Information Exposed?
+
+A browser needs HTML, CSS, JavaScript, and other resources from the server to render a webpage.
+
+The user can inspect the HTML and other client-side resources delivered to their browser. Hiding information visually does not make it secret if that information is still sent to the client.
+
+For example, an HTML comment such as:
+
+``
+
+is not displayed as normal page text, but it can still be read in the page source.
+
+However, **not every HTML comment is a vulnerability**. The security issue arises when sensitive information, such as passwords, secret keys or internal details is exposed to users.
+
+## 4. What Kind of Vulnerability Is This?
+
+The main issue demonstrated by this challenge is **information disclosure** the exposure of sensitive information in client-accessible HTML.
+
+It can also be related to **Security Misconfiguration** if the exposure results from a deployment or configuration.
+
+OWASP Top 10 is a list of categories of web application security risks. In the OWASP Top 10:2021 classification Security Misconfiguration is A05. Sensitive information exposure may also overlap with categories depending on the root cause.
+
+This challenge is a vulnerable training exercise so it does not establish that a real developer accidentally made the same mistake.
+
+## 5. How Can Developers Prevent This?
+
+Developers should:
+
+1. Never place passwords, API keys, private tokens or other secrets in HTML, JavaScript or other client-accessible resources.
+
+2. Review the code. Generated frontend assets before deployment.
+
+3. Remove internal comments and debugging information where appropriate.
+
+4. Store server-side secrets in a secret manager or protected server-side configuration.
+
+5. Rotate credentials immediately if they have been exposed.
+
+Environment variables can be useful for server-side configuration. A `.env` file may be used locally. It must not be exposed through the web server or committed to a public repository. Environment variables are not a solution for secrets that must be delivered to the browser.
+
+Tools such as Vite and webpack help build frontend assets. They do not automatically make client-side secrets safe. Any secret included in the generated browser bundle should be considered public.
+
+## 6. Key Takeaways
+
+- A webpage can reveal information that's not visible on the screen.
+
+- HTML source code and client-side resources are accessible, to the user.
+
+- Sensitive information must never be embedded in publicly delivered frontend code.
+
+- Information disclosure describes the security impact; Security Misconfiguration may describe one possible underlying cause.
+
+- Always distinguish between source-code visibility and the actual exposure of sensitive information.
+
+## 7. References
+
+- OverTheWire Natas: https://overthewire.org/wargames/natas/
+
+- OWASP Top 10: https://owasp.org/Top10/
+
+- OWASP Secrets Management Cheat Sheet: https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html
